@@ -9,7 +9,7 @@ class Die:
         self.num = self.roll()
 
     def roll(self):
-        """Rolls the dice."""
+        """Rolls the die."""
         if self.frozen:
             return self.num
         else:

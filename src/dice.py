@@ -28,6 +28,7 @@ class Dice:
         """Creates a list of dice which can be manipulated."""
         self.die_amount = die_amount
         self.sides = sides
+        self.frozen_dice = []
         self.dice = [] 
         for i in range(die_amount + 1):
             current_die = Die(self.sides)
@@ -48,6 +49,15 @@ class Dice:
         for die in self.dice:
             die.unfreeze()
         return self.roll()
+    
+    def freeze_index(self, index: int, freeze: bool):
+        """Freezes or unfreezes a given die based on its index."""
+        if freeze:
+            self.dice[index].freeze()
+        else:
+            self.dice[index].unfreeze()
+        # Keeps track of frozen dice.
+        self.frozen_dice.append(index)
 
 if __name__ == '__main__':
     my_dice = Dice(5, 6)

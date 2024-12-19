@@ -70,21 +70,40 @@ class Dice:
         """Unfreezes and rolls the dice for a new round."""
         for die in self.dice:
             die.unfreeze()
+        self.frozen_dice
         return self.roll()
     
-    def freeze_index(self, index: int, freeze: bool):
-        """Freezes or unfreezes a given die based on its index."""
+    def frozen_index(self, index: int, freeze: bool):
+        """Freezes or unfreezes a given die based on its index and boolean value."""
         if freeze:
             self.dice[index].freeze()
+            self.frozen_dice.append(index)
         else:
             self.dice[index].unfreeze()
-        # Keeps track of frozen dice.
-        self.frozen_dice.append(index)
+            self.frozen_dice.remove(index)
+    
+    def get_frozen_dice_values(self):
+        values = []
+    
+    def find_index_from_value(self, value):
+        """From the value of a die, find an index."""
+        for index, die in self.rolls:
+            if die == value:
+                return index
+    
+    def freeze_dice(self):
+        to_freeze = input(f"Enter a die to freeze 1-{self.die_amount + 1}:\t")
+        if to_freeze == "q" or to_freeze == "quit":
+            return
+        else:
+            self.frozen_index(int(to_freeze) - 1, True)
+
 
 if __name__ == '__main__':
     my_dice = Dice(5, 6)
+    my_dice.frozen_index(4, True)
+    my_dice.frozen_index(2, True)
     for i in range(12):
-        print(my_dice.roll())
-    data = my_dice.reset()
-    print(data)
-    
+        my_dice.roll()
+    print(my_dice.frozen_dice)
+    my_dice.reset()

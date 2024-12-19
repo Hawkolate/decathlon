@@ -31,11 +31,10 @@ class LongJump(Game):
     
     def round(self, round) -> int:
         print(f"Round {round} of {self.name}")
-        frozen_values = []
-        while sum(frozen_values) >= 9:
-            pass
-        self.dice.roll()
-        
+        # Need to get frozen die values.
+        while sum() <= 9:
+            self.dice.roll()
+            self.dice.freeze_dice()
 
     
     def play(self):

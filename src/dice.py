@@ -8,6 +8,7 @@ class Die:
         self.frozen = False
         self.num = self.roll()
 
+
     def roll(self):
         """Rolls the die."""
         if self.frozen:
@@ -15,17 +16,23 @@ class Die:
         else:
             self.num = random.randrange(1, self.sides + 1)
             return self.num
-    
+
+
     def freeze(self):
         self.frozen = True
     
+
     def unfreeze(self):
         self.frozen = False
+
 
 class Dice:
     
     def __init__(self, die_amount: int, sides: int):
         """Creates a list of dice which can be manipulated."""
+        if (die_amount > 9 or die_amount < 1) or (sides > 9 or sides < 1):
+            # Limiting values to avoid formatting complexities.
+            raise ValueError("Die amount and the number of sides must in a range of 1-9.")
         self.die_amount = die_amount
         self.sides = sides
         self.frozen_dice = []
@@ -33,7 +40,27 @@ class Dice:
         for i in range(die_amount + 1):
             current_die = Die(self.sides)
             self.dice.append(current_die)
+
+
+    def roll(self, hidden=False):
+        """Rolls all dice."""
+        self.rolls = []
+        for die in self.dice:
+            die.roll()
+            self.rolls.append(die.num)
+        if not hidden:
+            self.format_dice()
+        return self.rolls
     
+
+    def reset(self):
+        """Unfreezes and rolls the dice for a new round."""
+        for die in self.dice:
+            die.unfreeze()
+        self.frozen_dice
+        return self.roll(hidden=True)
+
+
     def format_dice(self):
         """Displays the dice in an aesthestic way.
         +---+-F-+
@@ -56,47 +83,41 @@ class Dice:
 
         bottom_header = "+" + (horizontal_side * (self.die_amount + 1))
         print(top_header + "\n" + values + "|" + "\n" + bottom_header)
-        
-    def roll(self):
-        """Rolls all dice."""
-        self.rolls = []
-        for die in self.dice:
-            die.roll()
-            self.rolls.append(die.num)
-        self.format_dice()
-        return self.rolls
-    
-    def reset(self):
-        """Unfreezes and rolls the dice for a new round."""
-        for die in self.dice:
-            die.unfreeze()
-        self.frozen_dice
-        return self.roll()
-    
+
+
     def frozen_index(self, index: int, freeze: bool):
         """Freezes or unfreezes a given die based on its index and boolean value."""
-        if freeze:
-            self.dice[index].freeze()
-            self.frozen_dice.append(index)
-        else:
-            self.dice[index].unfreeze()
-            self.frozen_dice.remove(index)
+        try:
+            if freeze:
+                self.dice[index].freeze()
+                self.frozen_dice.append(index)
+            else:
+                self.dice[index].unfreeze()
+                self.frozen_dice.remove(index)
+        except IndexError:
+            print("Please enter a valid index.")
+
     
-    def get_frozen_dice_values(self):
+    def sum_frozen_dice_values(self):
+        """Sums the values of all frozen dice."""
         values = []
+        # Sort of inefficient, but it gets the job done.
+        for die in self.dice:
+            if die.frozen == True:
+                values.append(die.num)
+        return sum(values)
+
     
     def find_index_from_value(self, value):
         """From the value of a die, find an index."""
         for index, die in self.rolls:
             if die == value:
                 return index
+
     
-    def freeze_dice(self):
-        to_freeze = input(f"Enter a die to freeze 1-{self.die_amount + 1}:\t")
-        if to_freeze == "q" or to_freeze == "quit":
-            return
-        else:
-            self.frozen_index(int(to_freeze) - 1, True)
+    def freeze_die_position(self):
+        to_freeze = int(input(f"Enter a die position to freeze 0-{self.die_amount}:\t"))
+        self.frozen_index(to_freeze, True)
 
 
 if __name__ == '__main__':

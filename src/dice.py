@@ -36,7 +36,8 @@ class Dice:
         self.die_amount = die_amount
         self.sides = sides
         self.frozen_dice = []
-        self.dice = [] 
+        self.dice = []
+        self.no_reroll = False
         for i in range(die_amount + 1):
             current_die = Die(self.sides)
             self.dice.append(current_die)
@@ -45,9 +46,10 @@ class Dice:
     def roll(self, hidden=False):
         """Rolls all dice."""
         self.rolls = []
-        for die in self.dice:
-            die.roll()
-            self.rolls.append(die.num)
+        if self.no_reroll == False:
+            for die in self.dice:
+                die.roll()
+                self.rolls.append(die.num)
         if not hidden:
             self.format_dice()
         return self.rolls
@@ -116,8 +118,15 @@ class Dice:
 
     
     def freeze_die_position(self):
-        to_freeze = int(input(f"Enter a die position to freeze 0-{self.die_amount}:\t"))
-        self.frozen_index(to_freeze, True)
+        # Take index as input, handle exiting any while loops.
+        try:
+            to_freeze = input(f"Enter a die position to freeze 0-{self.die_amount}:\t")
+            if to_freeze == "stop" or to_freeze == "q" or to_freeze == "quit":
+                return True
+            self.frozen_index(int(to_freeze), True)
+            return False
+        except ValueError:
+            print("Please enter a valid position.")
 
 
 if __name__ == '__main__':

@@ -32,10 +32,11 @@ class LongJump(Game):
     def round(self, round) -> int:
         self.dice.reset()
         print(f"-<Round {round} of {self.name}>-")
-        # Need to get frozen die values.
-        while self.dice.sum_frozen_dice_values() <= 9:
+        stop = False
+        # Detect invalid sum or a stop flag.
+        while self.dice.sum_frozen_dice_values() <= 9 and stop == False:
             self.dice.roll()
-            self.dice.freeze_die_position()
+            stop = self.dice.freeze_die_position()
         self.dice.format_dice()
         print("It's Over 9000")
 

@@ -37,6 +37,7 @@ class Dice:
         self.sides = sides
         self.frozen_dice = []
         self.dice = []
+        self.reroll = True
         for i in range(die_amount + 1):
             current_die = Die(self.sides)
             self.dice.append(current_die)
@@ -44,13 +45,16 @@ class Dice:
 
     def roll(self, hidden=False):
         """Rolls all dice."""
-        self.rolls = []
-        for die in self.dice:
-            die.roll()
-            self.rolls.append(die.num)
-        if not hidden:
-            self.format_dice()
-        return self.rolls
+        if self.reroll == True:
+            self.rolls = []
+            for die in self.dice:
+                die.roll()
+                self.rolls.append(die.num)
+            if hidden == False:
+                self.format_dice()
+        else:
+            self.format_dice() 
+            self.reroll = True
     
 
     def reset(self):
@@ -95,7 +99,10 @@ class Dice:
                 self.dice[index].unfreeze()
                 self.frozen_dice.remove(index)
         except IndexError:
+            # Need to prevent die reroll after this point.
+            self.reroll = False
             print("Please enter a valid index.")
+            
 
     
     def sum_frozen_dice_values(self):

@@ -38,6 +38,7 @@ class LongJump(Game):
             self.dice.roll()
             stop = self.dice.freeze_die_position()
         self.dice.format_dice()
+        return self.dice.sum_frozen_dice_values()
 
     
     def play(self):
@@ -48,3 +49,4 @@ class LongJump(Game):
         for round in range(1, self.rounds + 1):
             score = self.round(round)
             scores.append(score)
+        print(scores)

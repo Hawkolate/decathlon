@@ -2,8 +2,8 @@
 Assigned Games:     Long Jump + Discus + 110 Metre Hurdles (if time)
 """
 
-from dice import Dice
-from games import LongJump
+from core.dice import Dice
+from core.games import LongJump
 
 def main() -> None:
     # Add a selection interface to choose a game.

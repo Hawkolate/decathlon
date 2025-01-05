@@ -118,7 +118,7 @@ class Dice:
     def freeze_die_position(self):
         # Take index as input, handle exiting any while loops.
         try:
-            to_freeze = input(f"Enter a die position to freeze 0-{self.die_amount} or stop to end the round:\t")
+            to_freeze = input(f"Enter a die position to freeze 0-{self.die_amount} or `stop` to end the round:\t")
             if to_freeze == "stop":
                 return True
             else:

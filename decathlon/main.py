@@ -18,7 +18,7 @@ if __name__ == '__main__':
     main()
 
 """Current Issues."""
-# Some unwanted cases allow the dice to be rerolled.
+# Work on actual game logic.
+# Prevent player from abusing the roll of a frozen index to roll other dies.
 # Can't easliy import core package outside for testing.
 # Refactoring of the @play_time decorator.
-# Work on actual game logic.

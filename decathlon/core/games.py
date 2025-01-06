@@ -1,6 +1,7 @@
 from .dice import Dice
 import time as ti
 
+
 def play_time(func):
     """Experimenting with decorators to track play time."""
     def wrapper(self, *args, **kwargs):
@@ -8,7 +9,6 @@ def play_time(func):
         result = func(self, *args, **kwargs)
         t2 = ti.time()
         t_total = t2 - t1
-        msg = f"You've played {self.name} for "
         # Could clean this up with a dictionary.
         # Might store this data in a file to track it.
         if t_total >= 3600:
@@ -19,7 +19,6 @@ def play_time(func):
             unit = "m"
         else:
             unit = "s"
-
         print(f"You've played {self.name} for {t_total:.1f}{unit}.")
         return result
     return wrapper
@@ -46,10 +45,12 @@ class Game:
     def play(self):
         """Method intended to be over written by subclasses."""
         print(f"Currently playing, {self.name}")
+        # Reword / fix order of rounds and description.
+        # self.welcome_message()
 
 class LongJump(Game):
     
-    def __init__(self, name, rounds: int, dice: Dice, description: str):
+    def __init__(self, name="Long Jump", rounds=3, dice=Dice(5, 6), description="Loooooooong jump..."):
         super().__init__(name, rounds, dice, description)
 
     
@@ -63,6 +64,7 @@ class LongJump(Game):
             stop = self.dice.freeze_die_position()
         self.dice.format_dice()
         return self.dice.sum_frozen_dice_values()
+
 
     @play_time
     def play(self):

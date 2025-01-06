@@ -5,7 +5,6 @@ Assigned Games:     Long Jump + Discus + 110 Metre Hurdles (if time)
 from core import select_game
 
 def main() -> None:
-    # Add a selection interface to choose a game.
     print("Welcome to Decathlon!")
     while True:
         game = select_game()
@@ -15,12 +14,12 @@ def main() -> None:
             game.play()
 
 
-
 if __name__ == '__main__':
     main()
 
-# Work on quitting the program.
-# Prevent Invalid Index from rerolling the dice.
-# Prevent freezing of an already frozen die, which would cause all the other die's to be rerolled.
-# Also add some comments! And work on error handling.
-# Write some tests, Test Driven Development.
+"""Current Issues."""
+# Some unwanted cases allow the dice to be rerolled.
+# Can't easliy import core package outside for testing.
+# Selection process needs to be made easier.
+# Refactoring of the @play_time decorator.
+# Work on actual game logic.

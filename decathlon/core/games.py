@@ -1,4 +1,4 @@
-from core.dice import Dice
+from .dice import Dice
 import time as ti
 
 def play_time(func):

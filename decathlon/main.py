@@ -2,13 +2,18 @@
 Assigned Games:     Long Jump + Discus + 110 Metre Hurdles (if time)
 """
 
-from core.dice import Dice
-from core.games import LongJump
+from core import select_game
 
 def main() -> None:
     # Add a selection interface to choose a game.
-    game = LongJump("Long Jump", 3, Dice(5, 6), "Loooooooong jump...")
-    game.play()
+    print("Welcome to Decathlon!")
+    while True:
+        game = select_game()
+        if game == None:
+            break
+        else:
+            game.play()
+
 
 
 if __name__ == '__main__':

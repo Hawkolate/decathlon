@@ -125,6 +125,7 @@ class Dice:
                 self.frozen_index(int(to_freeze), True)
                 return False
         except ValueError:
+            self.reroll = False
             print("Please enter a valid position.")
             return False
 

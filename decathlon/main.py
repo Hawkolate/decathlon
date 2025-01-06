@@ -20,6 +20,5 @@ if __name__ == '__main__':
 """Current Issues."""
 # Some unwanted cases allow the dice to be rerolled.
 # Can't easliy import core package outside for testing.
-# Selection process needs to be made easier.
 # Refactoring of the @play_time decorator.
 # Work on actual game logic.

@@ -19,6 +19,5 @@ if __name__ == '__main__':
 
 """Current Issues."""
 # Work on actual game logic.
-# Prevent player from abusing the roll of a frozen index to roll other dies.
 # Can't easliy import core package outside for testing.
 # Refactoring of the @play_time decorator.

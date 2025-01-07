@@ -122,7 +122,12 @@ class Dice:
             if to_freeze == "stop":
                 return True
             else:
-                self.frozen_index(int(to_freeze), True)
+                # Prevent player from abusing the roll of a frozen index to roll other dice.
+                to_freeze = int(to_freeze)
+                if self.dice[to_freeze].frozen == True:
+                    raise ValueError
+                else:
+                    self.frozen_index(to_freeze, True)
                 return False
         except ValueError:
             self.reroll = False

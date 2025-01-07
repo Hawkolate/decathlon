@@ -36,6 +36,7 @@ class Game:
     
 
     def score(self):
+        """Outputs scores in round order."""
         for index, score in enumerate(self.scores):
             print(f"Round {index + 1}:\t{score}")
 
@@ -79,13 +80,13 @@ class LongJump(Game):
         # Round Logic
         for round in range(1, self.rounds + 1):
             score = self.round(round)
+            # Catching invalid scores.
             if score >= 9 or score <= 0:
                 self.scores.append(0)
             else:
                 self.scores.append(score)
         self.score()
        
-
 
 class Discus(Game):
     def __init__(self, name="Discus", rounds=3, dice=Dice(5, 6), description="Don't throw any errors."):

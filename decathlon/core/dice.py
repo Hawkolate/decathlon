@@ -116,7 +116,7 @@ class Dice:
 
     
     def freeze_die_position(self):
-        # Take index as input, handle exiting any while loops.
+        """Take index as input, catch any errors and unwanted behaviour."""
         try:
             to_freeze = input(f"Enter a die position to freeze 0-{self.die_amount} or `stop` to end the round:\t")
             if to_freeze == "stop":
@@ -129,7 +129,7 @@ class Dice:
                 else:
                     self.frozen_index(to_freeze, True)
                 return False
-        except ValueError:
+        except (ValueError, IndexError):
             self.reroll = False
             print("Please enter a valid position.")
             return False

@@ -37,6 +37,7 @@ class Game:
 
     def score(self):
         """Outputs scores in round order."""
+        print(f"Thanks for playing.")
         for index, score in enumerate(self.scores):
             print(f"Round {index + 1}:\t{score}")
 
@@ -49,11 +50,13 @@ class Game:
             print(msg)
         print(self.description)
 
+
     def play(self):
         """Method intended to be over written by subclasses."""
         print(f"Currently playing, {self.name}")
         # Reword / fix order of rounds and description.
         # self.welcome_message()
+
 
 class LongJump(Game):
     
@@ -89,10 +92,33 @@ class LongJump(Game):
        
 
 class Discus(Game):
+
     def __init__(self, name="Discus", rounds=3, dice=Dice(5, 6), description="Don't throw any errors."):
         super().__init__(name, rounds, dice, description)
+    
+    
+    def round(self):
+        pass
+    
+    @play_time
+    def play(self):
+        """Contains logic for Discus Game."""
+        self.welcome_message()
+
 
 
 class Hurdles(Game):
-    def __init__(self, name="Hurdles", rounds=1, dice=Dice(5, 6), description="Don't fall down?"):
+
+    def __init__(self, name="110 Metre Hurdles", rounds=1, dice=Dice(5, 6), description="Don't fall down?"):
         super().__init__(name, rounds, dice, description)
+ 
+
+    def round(self):
+        pass
+    
+
+    @play_time
+    def play(self):
+        """Contains logic for Hurdles Game."""
+        self.welcome_message()
+

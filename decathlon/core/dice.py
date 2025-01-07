@@ -133,6 +133,16 @@ class Dice:
             self.reroll = False
             print("Please enter a valid position.")
             return False
+        
+    def satisfied_value(self):
+        """Roll dice until stopping conditions."""
+        self.roll()
+        to_roll = input("Would you like to continue rolling (yes/No)?\t").lower()
+        no_words = ["no", "n"]
+        if to_roll in no_words:
+            stop = True
+        else:
+            stop = False
 
 
 if __name__ == '__main__':

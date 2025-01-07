@@ -83,7 +83,7 @@ class LongJump(Game):
         # Round Logic
         for round in range(1, self.rounds + 1):
             score = self.round(round)
-            # Catching invalid scores.
+            # Catching invalid scores over nine.
             if score >= 9 or score <= 0:
                 self.scores.append(0)
             else:
@@ -114,11 +114,13 @@ class Hurdles(Game):
  
 
     def round(self):
-        pass
+        self.dice.reset()
+        print(f"Round {round} of {self.name}")
     
 
     @play_time
     def play(self):
         """Contains logic for Hurdles Game."""
+        # Throw all five dice up to six times.
         self.welcome_message()
 

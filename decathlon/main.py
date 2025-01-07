@@ -19,5 +19,6 @@ if __name__ == '__main__':
 
 """Current Issues."""
 # Work on actual game logic.
+# Clean up dice freezing logic.
 # Can't easliy import core package outside for testing.
 # Refactoring of the @play_time decorator.

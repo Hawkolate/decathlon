@@ -111,7 +111,7 @@ class Hurdles(Game):
     def __init__(self, name="110 Metre Hurdles", rounds=1, dice=Dice(5, 6), description="Don't fall down?"):
         super().__init__(name, rounds, dice, description)
  
-    def get_score(self):
+    def sum_score(self):
         score = self.dice.sum_dice_values()
         print(f"Total Score:\t{score}")
 
@@ -131,7 +131,7 @@ class Hurdles(Game):
             else:
                 end = "rolls remaining."
             print(f"You have {roll_limit - count} {end}") 
-            self.get_score()
+            self.sum_score()
             stop = self.dice.satisfied_value()
             count += 1
-        self.get_score()
+        self.sum_score()

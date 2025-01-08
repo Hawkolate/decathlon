@@ -134,6 +134,7 @@ class Dice:
             print("Please enter a valid position.")
             return False
         
+
     def satisfied_value(self):
         """Roll dice until stopping conditions."""
         self.roll()

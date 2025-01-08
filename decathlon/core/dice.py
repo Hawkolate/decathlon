@@ -103,6 +103,8 @@ class Dice:
             self.reroll = False
             print("Please enter a valid index.")
             
+    def sum_dice_values(self):
+        return sum(self.rolls)
 
     
     def sum_frozen_dice_values(self):
@@ -114,6 +116,7 @@ class Dice:
                 values.append(die.num)
         return sum(values)
 
+    
     
     def freeze_die_position(self):
         """Take index as input, catch any errors and unwanted behaviour."""
@@ -135,15 +138,16 @@ class Dice:
             return False
         
 
-    def satisfied_value(self):
+    def satisfied_value(self) -> bool:
         """Roll dice until stopping conditions."""
-        self.roll()
         to_roll = input("Would you like to continue rolling (yes/No)?\t").lower()
         no_words = ["no", "n"]
         if to_roll in no_words:
             stop = True
         else:
+            self.roll()
             stop = False
+        return stop
 
 
 if __name__ == '__main__':

@@ -106,21 +106,32 @@ class Discus(Game):
         self.welcome_message()
 
 
-
 class Hurdles(Game):
 
     def __init__(self, name="110 Metre Hurdles", rounds=1, dice=Dice(5, 6), description="Don't fall down?"):
         super().__init__(name, rounds, dice, description)
  
-
-    def round(self):
-        self.dice.reset()
-        print(f"Round {round} of {self.name}")
-    
+    def get_score(self):
+        score = self.dice.sum_dice_values()
+        print(f"Total Score:\t{score}")
 
     @play_time
     def play(self):
         """Contains logic for Hurdles Game."""
         # Throw all five dice up to six times.
+        self.dice.reset()
         self.welcome_message()
-
+        self.dice.roll()
+        stop = False
+        roll_limit = 6
+        count = 0
+        while (count < roll_limit) and (stop == False):
+            if count == 1:
+                end = "roll remaining."
+            else:
+                end = "rolls remaining."
+            print(f"You have {roll_limit - count} {end}") 
+            self.get_score()
+            stop = self.dice.satisfied_value()
+            count += 1
+        self.get_score()

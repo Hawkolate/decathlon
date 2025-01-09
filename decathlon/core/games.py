@@ -93,17 +93,32 @@ class LongJump(Game):
 
 class Discus(Game):
 
-    def __init__(self, name="Discus", rounds=3, dice=Dice(5, 6), description="Don't throw any errors."):
+    def __init__(self, name="Discus", rounds=3, dice=Dice(5, 6), description="."):
         super().__init__(name, rounds, dice, description)
     
     
-    def round(self):
-        pass
-    
+    def round(self, round):
+        self.dice.reset()
+        print(f"Round {round} of {self.name}")
+        stop = False
+        while (valid == True) and (stop == False):
+            self.dice.roll()
+            valid = self.dice.check_for_even()
+            stop = self.dice.freeze_die_position(only_even=True)
+        self.dice.format_dice()
+        return self.dice.sum_frozen_dice_values()
+
+
     @play_time
     def play(self):
         """Contains logic for Discus Game."""
         self.welcome_message()
+        # Round Logic
+        for round in range(1, self.rounds + 1):
+            score = self.round(round)
+            self.scores.append(score)
+        self.score()
+         
 
 
 class Hurdles(Game):
@@ -123,7 +138,7 @@ class Hurdles(Game):
         self.welcome_message()
         self.dice.roll()
         stop = False
-        roll_limit = 6
+        roll_limit = 5
         count = 0
         while (count < roll_limit) and (stop == False):
             if count == 1:

@@ -116,9 +116,16 @@ class Dice:
                 values.append(die.num)
         return sum(values)
 
+
+    def check_for_even(self):
+        """Loop through rolls, if we have a valid even roll, return True."""
+        for i in self.rolls:
+            if i % 2 == 0:
+                return True
+        return False
     
     
-    def freeze_die_position(self):
+    def freeze_die_position(self, only_even=False):
         """Take index as input, catch any errors and unwanted behaviour."""
         try:
             to_freeze = input(f"Enter a die position to freeze 0-{self.die_amount} or `stop` to end the round:\t")

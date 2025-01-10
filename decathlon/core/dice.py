@@ -139,7 +139,6 @@ class Dice:
     
     def freeze_die_position(self, only_even=False) -> bool:
         """Take index as input, catch any errors and unwanted behaviour."""
-        # Some sketchy code with a lot of error handling.
         try:
             to_freeze = input(f"Enter a die position to freeze 0-{self.die_amount} or `stop` to end the round:\t")
             if to_freeze == "stop":
@@ -161,7 +160,22 @@ class Dice:
             self.reroll = False
             print("Please enter a valid position.")
             return False
-        
+    
+    def freeze_die_values(self, only_even=False):
+        # We need to parse to_freeze as a list of values.
+        # Prevent already frozen dice from being frozen,
+        # And optionally only allow even dice to be frozen.
+        try:
+            # Not Stable for use.
+            to_freeze = [int(v) for v in input(f"Enter die values to freeze 1-{self.sides} separated by commas `1, 2, 4`:\t").split()]
+            for die in self.dice:
+                for value in to_freeze:
+                    if die.num == value and die.frozen != True:
+                        die.frozen == True
+                
+        except (ValueError, IndexError):
+            print("Please enter valid die values.")
+
 
     def satisfied_value(self) -> bool:
         """Roll dice until stopping conditions."""

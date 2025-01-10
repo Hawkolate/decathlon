@@ -93,18 +93,24 @@ class LongJump(Game):
 
 class Discus(Game):
 
-    def __init__(self, name="Discus", rounds=3, dice=Dice(5, 6), description="."):
+    def __init__(self, name="Discus", rounds=3, dice=Dice(5, 6), description="This stupid dot."):
         super().__init__(name, rounds, dice, description)
     
     
     def round(self, round):
         self.dice.reset()
         print(f"Round {round} of {self.name}")
+        valid = True
         stop = False
-        while (valid == True) and (stop == False):
+        all_frozen = False
+        # Valid becomes False if there are no even unfrozen values left.
+        # The loop stops if the player enters stop.
+        # If all dice are frozen, end the loop.
+        while (valid == True) and (stop == False) and (all_frozen == False):
             self.dice.roll()
-            valid = self.dice.check_for_even()
             stop = self.dice.freeze_die_position(only_even=True)
+            valid = self.dice.check_for_even()
+            print(valid)
         self.dice.format_dice()
         return self.dice.sum_frozen_dice_values()
 
@@ -120,15 +126,16 @@ class Discus(Game):
         self.score()
          
 
-
 class Hurdles(Game):
 
     def __init__(self, name="110 Metre Hurdles", rounds=1, dice=Dice(5, 6), description="Don't fall down?"):
         super().__init__(name, rounds, dice, description)
  
+
     def sum_score(self):
         score = self.dice.sum_dice_values()
         print(f"Total Score:\t{score}")
+
 
     @play_time
     def play(self):

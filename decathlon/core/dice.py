@@ -61,7 +61,7 @@ class Dice:
         """Unfreezes and rolls the dice for a new round."""
         for die in self.dice:
             die.unfreeze()
-        self.frozen_dice
+        self.frozen_dice = []
         return self.roll(hidden=True)
 
 
@@ -119,21 +119,31 @@ class Dice:
 
     def check_for_even(self):
         """Loop through rolls, if we have a valid even roll, return True."""
-        for i in self.rolls:
-            if i % 2 == 0:
+        # Rewrite this.
+        for i, roll in enumerate(self.rolls):
+            print(i, roll)
+            # Find the first even value to 
+            if roll % 2 == 0 and self.dice[i].frozen == False:
+                print(f"Roll found is {roll}.")
                 return True
         return False
     
     
     def freeze_die_position(self, only_even=False):
         """Take index as input, catch any errors and unwanted behaviour."""
+        # Some sketchy code with a lot of error handling.
         try:
             to_freeze = input(f"Enter a die position to freeze 0-{self.die_amount} or `stop` to end the round:\t")
             if to_freeze == "stop":
                 return True
             else:
-                # Prevent player from abusing the roll of a frozen index to roll other dice.
                 to_freeze = int(to_freeze)
+                # Account for specific freezing requirements.
+                if only_even == True:
+                    if self.dice[to_freeze].num % 2 != 0:
+                        print("Only dice with even values may be frozen.")
+                        raise ValueError
+                # Prevent player from abusing the roll of a frozen index to roll other dice.
                 if self.dice[to_freeze].frozen == True:
                     raise ValueError
                 else:

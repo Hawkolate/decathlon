@@ -9,7 +9,7 @@ class Die:
         self.num = self.roll()
 
 
-    def roll(self):
+    def roll(self) -> int:
         """Rolls the die."""
         if self.frozen:
             return self.num
@@ -18,17 +18,17 @@ class Die:
             return self.num
 
 
-    def freeze(self):
+    def freeze(self) -> bool:
         self.frozen = True
     
 
-    def unfreeze(self):
+    def unfreeze(self) -> bool:
         self.frozen = False
 
 
 class Dice:
     
-    def __init__(self, die_amount: int, sides: int):
+    def __init__(self, die_amount: int, sides: int) -> None:
         """Creates a list of dice which can be manipulated."""
         if (die_amount > 9 or die_amount < 1) or (sides > 9 or sides < 1):
             # Limiting values to avoid formatting complexities.
@@ -43,13 +43,14 @@ class Dice:
             self.dice.append(current_die)
 
 
-    def roll(self, hidden=False):
+    def roll(self, hidden=False) -> None:
         """Rolls all dice."""
         if self.reroll == True:
             self.rolls = []
             for die in self.dice:
                 die.roll()
                 self.rolls.append(die.num)
+            # This allows for a roll not to be displayed.
             if hidden == False:
                 self.format_dice()
         else:
@@ -57,15 +58,15 @@ class Dice:
             self.reroll = True
     
 
-    def reset(self):
+    def reset(self) -> None:
         """Unfreezes and rolls the dice for a new round."""
         for die in self.dice:
             die.unfreeze()
         self.frozen_dice = []
-        return self.roll(hidden=True)
+        self.roll(hidden=True)
 
 
-    def format_dice(self):
+    def format_dice(self) -> None:
         """Displays the dice in an aesthestic way.
         +---+-F-+
         | 6 |[5]|
@@ -89,7 +90,7 @@ class Dice:
         print(top_header + "\n" + values + "|" + "\n" + bottom_header)
 
 
-    def frozen_index(self, index: int, freeze: bool):
+    def frozen_index(self, index: int, freeze: bool) -> None:
         """Freezes or unfreezes a given die based on its index and boolean value."""
         try:
             if freeze:
@@ -102,13 +103,23 @@ class Dice:
             # Need to prevent die reroll after this point.
             self.reroll = False
             print("Please enter a valid index.")
+    
+    def all_frozen(self) -> bool:
+        """Checks to see if all the dice are frozen."""
+        if len(self.frozen_dice) == len(self.dice):
+            return True
+        else:
+            return False
             
-    def sum_dice_values(self):
+
+    def sum_dice_values(self) -> int:
+        """Sums the values of all dice."""
         return sum(self.rolls)
 
     
-    def sum_frozen_dice_values(self):
+    def sum_frozen_dice_values(self) -> int:
         """Sums the values of all frozen dice."""
+        # self.frozen_dice contains indices, not values.
         values = []
         # Sort of inefficient, but it gets the job done.
         for die in self.dice:
@@ -117,19 +128,16 @@ class Dice:
         return sum(values)
 
 
-    def check_for_even(self):
-        """Loop through rolls, if we have a valid even roll, return True."""
-        # Rewrite this.
+    def check_for_even(self) -> bool:
+        """Short algorithm that returns True if it finds an even number."""
         for i, roll in enumerate(self.rolls):
-            print(i, roll)
             # Find the first even value to 
             if roll % 2 == 0 and self.dice[i].frozen == False:
-                print(f"Roll found is {roll}.")
                 return True
         return False
     
     
-    def freeze_die_position(self, only_even=False):
+    def freeze_die_position(self, only_even=False) -> bool:
         """Take index as input, catch any errors and unwanted behaviour."""
         # Some sketchy code with a lot of error handling.
         try:

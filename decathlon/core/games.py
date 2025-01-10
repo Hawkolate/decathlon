@@ -27,7 +27,7 @@ def play_time(func):
 class Game:
     """Intended to be used a base for dice based games."""
 
-    def __init__(self, name: str, rounds: int, dice: Dice, description: str):
+    def __init__(self, name: str, rounds: int, dice: Dice, description: str) -> None:
         self.name = name
         self.rounds = rounds
         self.dice = dice
@@ -35,14 +35,14 @@ class Game:
         self.scores = []
     
 
-    def score(self):
+    def score(self) -> None:
         """Outputs scores in round order."""
         print(f"Thanks for playing.")
         for index, score in enumerate(self.scores):
             print(f"Round {index + 1}:\t{score}")
 
 
-    def welcome_message(self):
+    def welcome_message(self) -> None:
         msg = f"You are now playing {self.name}, it has {self.rounds} rounds."
         if self.rounds == 1:
             print(f"{msg[:-2]}.")
@@ -51,33 +51,32 @@ class Game:
         print(self.description)
 
 
-    def play(self):
+    def play(self) -> None:
         """Method intended to be over written by subclasses."""
         print(f"Currently playing, {self.name}")
-        # Reword / fix order of rounds and description.
-        # self.welcome_message()
 
 
 class LongJump(Game):
     
-    def __init__(self, name="Long Jump", rounds=3, dice=Dice(5, 6), description="Loooooooong jump..."):
+    def __init__(self, name="Long Jump", rounds=3, dice=Dice(5, 6), description="Loooooooong jump...") -> None:
         super().__init__(name, rounds, dice, description)
 
     
     def round(self, round) -> int:
         self.dice.reset()
         print(f"Round {round} of {self.name}")
-        stop = False
+        stop, all_frozen = (False, False)
         # Detect invalid sum or a stop flag.
-        while (self.dice.sum_frozen_dice_values() < 9) and (stop == False):
+        while (self.dice.sum_frozen_dice_values() < 9) and (stop == False) and (all_frozen == False):
             self.dice.roll()
             stop = self.dice.freeze_die_position()
+            all_frozen == self.dice.all_frozen()
         self.dice.format_dice()
         return self.dice.sum_frozen_dice_values()
 
 
     @play_time
-    def play(self):
+    def play(self) -> None:
         """Contains logic for the Long Jump game."""
         self.welcome_message()
         # Round Logic
@@ -93,11 +92,11 @@ class LongJump(Game):
 
 class Discus(Game):
 
-    def __init__(self, name="Discus", rounds=3, dice=Dice(5, 6), description="This stupid dot."):
+    def __init__(self, name="Discus", rounds=3, dice=Dice(5, 6), description="This stupid dot.") -> None:
         super().__init__(name, rounds, dice, description)
     
     
-    def round(self, round):
+    def round(self, round) -> int:
         self.dice.reset()
         print(f"Round {round} of {self.name}")
         valid, stop, all_frozen = (True, False, False)
@@ -108,13 +107,13 @@ class Discus(Game):
             self.dice.roll()
             stop = self.dice.freeze_die_position(only_even=True)
             valid = self.dice.check_for_even()
-            print(valid)
+            all_frozen = self.dice.all_frozen()
         self.dice.format_dice()
         return self.dice.sum_frozen_dice_values()
 
 
     @play_time
-    def play(self):
+    def play(self) -> None:
         """Contains logic for Discus Game."""
         self.welcome_message()
         # Round Logic
@@ -126,17 +125,17 @@ class Discus(Game):
 
 class Hurdles(Game):
 
-    def __init__(self, name="110 Metre Hurdles", rounds=1, dice=Dice(5, 6), description="Don't fall down?"):
+    def __init__(self, name="110 Metre Hurdles", rounds=1, dice=Dice(5, 6), description="Don't fall down?") -> None:
         super().__init__(name, rounds, dice, description)
  
 
-    def sum_score(self):
+    def sum_score(self) -> None:
         score = self.dice.sum_dice_values()
         print(f"Total Score:\t{score}")
 
 
     @play_time
-    def play(self):
+    def play(self) -> None:
         """Contains logic for Hurdles Game."""
         # Throw all five dice up to six times.
         self.dice.reset()
@@ -146,7 +145,8 @@ class Hurdles(Game):
         roll_limit = 5
         count = 0
         while (count < roll_limit) and (stop == False):
-            if count == 1:
+            rolls_left = roll_limit - count
+            if rolls_left == 1:
                 end = "roll remaining."
             else:
                 end = "rolls remaining."

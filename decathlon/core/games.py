@@ -100,9 +100,7 @@ class Discus(Game):
     def round(self, round):
         self.dice.reset()
         print(f"Round {round} of {self.name}")
-        valid = True
-        stop = False
-        all_frozen = False
+        valid, stop, all_frozen = (True, False, False)
         # Valid becomes False if there are no even unfrozen values left.
         # The loop stops if the player enters stop.
         # If all dice are frozen, end the loop.

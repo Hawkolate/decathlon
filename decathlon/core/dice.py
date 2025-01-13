@@ -167,12 +167,17 @@ class Dice:
         # And optionally only allow even dice to be frozen.
         try:
             # Not Stable for use.
-            to_freeze = [int(v) for v in input(f"Enter die values to freeze 1-{self.sides} separated by commas `1, 2, 4`:\t").split()]
-            for die in self.dice:
-                for value in to_freeze:
-                    if die.num == value and die.frozen != True:
-                        die.frozen == True
-                
+            freezing = [int(v) for v in input(f"Enter die values to freeze 1-{self.sides} separated by commas `1, 2, 4`:\t").split(",")]
+            # We need to convert freezing values to indices for freezing self.dice
+            indices = []
+            for to_freeze in freezing:
+                for i, roll in enumerate(self.rolls):
+                    # Handling Duplicates by checking known indecies.
+                    if (roll == to_freeze) and (i not in indices):
+                        indices.append(i)
+                        break
+            print(freezing)
+            print(indices)
         except (ValueError, IndexError):
             print("Please enter valid die values.")
 
@@ -191,9 +196,5 @@ class Dice:
 
 if __name__ == '__main__':
     my_dice = Dice(5, 6)
-    my_dice.frozen_index(4, True)
-    my_dice.frozen_index(2, True)
-    for i in range(12):
-        my_dice.roll()
-    print(my_dice.frozen_dice)
-    my_dice.reset()
+    my_dice.roll()
+    my_dice.freeze_die_values()

@@ -164,6 +164,14 @@ class Dice:
             print("Please enter a valid position.")
             return False
     
+
+    def values_to_indices():
+        pass
+
+    def freeze_indices():
+        pass
+
+
     def freeze_die_values(self, only_even=False) -> bool:
         """Allows the freezing of multiple dice via parsing a list."""
         # We need to parse to_freeze as a list of values.
@@ -171,10 +179,11 @@ class Dice:
         # And optionally only allow even dice to be frozen.
         try:
             # Not Stable for use.
-            freezing = input(f"Enter die values to freeze 1-{self.sides} separated by commas `1, 2, 4`\nor `stop` to end the round:\t").split(",")
+            # And should really be refactored / broken into smaller functions.
+            freezing = input(f"Enter die values to freeze 1-{self.sides} separated by commas, e.g, `1, 2, 4`\nor `stop` to end the round:\t").split(",")
             # We need to convert freezing values to indices for freezing self.dice
             if freezing[0] == 'stop':
-                return False
+                return True
             freezing = list(map(int, freezing)) # Convert to list[int], may raise ValueError.
             if only_even == True:
                 # Check to ensure only even numbers are present.
@@ -186,16 +195,27 @@ class Dice:
             for to_freeze in freezing:
                 for i, roll in enumerate(self.rolls):
                     # Handling Duplicates by checking known indecies.
-                    if (roll == to_freeze) and (i not in indices):
+                    # And already frozen dice.
+                    if (roll == to_freeze) and (i not in indices) and (i not in self.frozen_dice):
                         indices.append(i)
                         break
+                else:
+                    print(f"Value: {to_freeze} is not in rolls.")
+                    raise ValueError
             print(freezing)
             print(indices)
             for x in indices:
-                pass
-
+                if self.dice[x].frozen == True:
+                    print("Refreezing dice is not allowed.")
+                    raise ValueError
+                else:
+                    self.frozen_index(x, True)
+            print(self.frozen_dice)
+            return False
         except (ValueError, IndexError):
+            self.reroll = False
             print("Please enter valid die values.")
+            return False
 
 
     def satisfied_value(self) -> bool:

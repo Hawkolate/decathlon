@@ -69,7 +69,7 @@ class LongJump(Game):
         # Detect invalid sum or a stop flag.
         while (self.dice.sum_frozen_dice_values() < 9) and (stop == False) and (all_frozen == False):
             self.dice.roll()
-            stop = self.dice.freeze_die_position()
+            stop = self.dice.freeze_die_values()
             all_frozen == self.dice.all_frozen()
         self.dice.format_dice()
         return self.dice.sum_frozen_dice_values()

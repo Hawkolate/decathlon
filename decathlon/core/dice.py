@@ -172,7 +172,7 @@ class Dice:
         pass
 
 
-    def freeze_die_values(self, only_even=False) -> bool:
+    def freeze_die_values(self, only_even=False, debug=False) -> bool:
         """Allows the freezing of multiple dice via parsing a list."""
         # We need to parse to_freeze as a list of values.
         # Prevent already frozen dice from being frozen,
@@ -180,7 +180,7 @@ class Dice:
         try:
             # Not Stable for use.
             # And should really be refactored / broken into smaller functions.
-            freezing = input(f"Enter die values to freeze 1-{self.sides} separated by commas, e.g, `1, 2, 4`\nor `stop` to end the round:\t").split(",")
+            freezing = input(f"Enter die values to freeze 1-{self.sides} separated by commas, e.g, `1, 2`\nor `stop` to end the round:\t").split(",")
             # We need to convert freezing values to indices for freezing self.dice
             if freezing[0] == 'stop':
                 return True
@@ -202,15 +202,16 @@ class Dice:
                 else:
                     print(f"Value: {to_freeze} is not in rolls.")
                     raise ValueError
-            print(freezing)
-            print(indices)
             for x in indices:
                 if self.dice[x].frozen == True:
                     print("Refreezing dice is not allowed.")
                     raise ValueError
                 else:
                     self.frozen_index(x, True)
-            print(self.frozen_dice)
+            if debug == True:
+                print(freezing)
+                print(indices)
+                print(self.frozen_dice)
             return False
         except (ValueError, IndexError):
             self.reroll = False

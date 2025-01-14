@@ -138,7 +138,10 @@ class Dice:
     
     
     def freeze_die_position(self, only_even=False) -> bool:
-        """Take index as input, catch any errors and unwanted behaviour."""
+        """
+        Deprecated function for freezing a single die index per roll. 
+        Take index as input, catch any errors and unwanted behaviour.
+        """
         try:
             to_freeze = input(f"Enter a die position to freeze 0-{self.die_amount} or `stop` to end the round:\t")
             if to_freeze == "stop":
@@ -161,14 +164,24 @@ class Dice:
             print("Please enter a valid position.")
             return False
     
-    def freeze_die_values(self, only_even=False):
+    def freeze_die_values(self, only_even=False) -> bool:
+        """Allows the freezing of multiple dice via parsing a list."""
         # We need to parse to_freeze as a list of values.
         # Prevent already frozen dice from being frozen,
         # And optionally only allow even dice to be frozen.
         try:
             # Not Stable for use.
-            freezing = [int(v) for v in input(f"Enter die values to freeze 1-{self.sides} separated by commas `1, 2, 4`:\t").split(",")]
+            freezing = input(f"Enter die values to freeze 1-{self.sides} separated by commas `1, 2, 4`\nor `stop` to end the round:\t").split(",")
             # We need to convert freezing values to indices for freezing self.dice
+            if freezing[0] == 'stop':
+                return False
+            freezing = list(map(int, freezing)) # Convert to list[int], may raise ValueError.
+            if only_even == True:
+                # Check to ensure only even numbers are present.
+                for value in freezing:
+                    if value % 2 != 0:
+                        print("Only dice with even values may be frozen.")
+                        raise ValueError
             indices = []
             for to_freeze in freezing:
                 for i, roll in enumerate(self.rolls):
@@ -178,6 +191,9 @@ class Dice:
                         break
             print(freezing)
             print(indices)
+            for x in indices:
+                pass
+
         except (ValueError, IndexError):
             print("Please enter valid die values.")
 

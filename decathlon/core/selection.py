@@ -8,7 +8,7 @@ def select_game() -> Game:
     for index, name in enumerate(names):
         print(f"{index}-[ {name} ]")
     selection = input(f"Enter a game 0-{len(names) - 1} or q to quit:\t")
-    print()
+    print() # Blank Line
     if selection == 'q' or selection == 'quit':
         return
     try:

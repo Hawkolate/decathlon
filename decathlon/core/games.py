@@ -58,7 +58,7 @@ class Game:
 
 class LongJump(Game):
     
-    def __init__(self, name="Long Jump", rounds=3, dice=Dice(5, 6), description="Loooooooong jump...") -> None:
+    def __init__(self, name="Long Jump", rounds=3, dice=Dice(5, 6), description="") -> None:
         super().__init__(name, rounds, dice, description)
 
     
@@ -92,7 +92,11 @@ class LongJump(Game):
 
 class Discus(Game):
 
-    def __init__(self, name="Discus", rounds=3, dice=Dice(5, 6), description="This stupid dot.") -> None:
+    def __init__(self, name="Discus", 
+        rounds=3, dice=Dice(5, 6), 
+        description="Freeze at least one die per turn, you may not freeze odd dice.\
+        \nIf no even dice remain, the round becomes invalid.",
+        ) -> None:
         super().__init__(name, rounds, dice, description)
     
     
@@ -105,12 +109,15 @@ class Discus(Game):
         # If all dice are frozen, end the loop.
         while (valid == True) and (stop == False) and (all_frozen == False):
             self.dice.roll()
+            # Checking at the start makes the game better for the player.
             valid = self.dice.check_for_even() # Needs to happen at start to catch changes after rolling.
             stop = self.dice.freeze_die_values(only_even=True)
-            #valid = self.dice.check_for_even()
             all_frozen = self.dice.all_frozen()
         self.dice.format_dice()
-        return self.dice.sum_frozen_dice_values()
+        if valid == False:
+            return 0
+        else:
+            return self.dice.sum_frozen_dice_values()
 
 
     @play_time

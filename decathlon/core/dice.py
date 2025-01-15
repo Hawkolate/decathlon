@@ -189,7 +189,8 @@ class Dice:
 
  
 
-    def freeze_indices(self, indices):
+    def freeze_indices(self, indices) -> None:
+        """Freezes dice based on list of indices."""
         for x in indices:
             if self.dice[x].frozen == True:
                 print("Refreezing dice is not allowed.")
@@ -204,15 +205,13 @@ class Dice:
         # Prevent already frozen dice from being frozen,
         # And optionally only allow even dice to be frozen.
         try:
-            # Not Stable for use.
-            # And should really be refactored / broken into smaller functions.
             freezing = input(f"Enter die values to freeze 1-{self.sides} separated by commas, e.g, `1, 2`\nor `stop` to end the round:\t").split(",")
-            # We need to convert freezing values to indices for freezing self.dice
             if freezing[0] == 'stop':
                 return True
             freezing = list(map(int, freezing)) # Convert to list[int], may raise ValueError.
             if only_even == True:
                 self.check_for_odd_values(freezing)
+            # We need to convert freezing values to indices for freezing self.dice
             indices = self.values_to_indices(freezing)
             self.freeze_indices(indices)
             if debug == True:

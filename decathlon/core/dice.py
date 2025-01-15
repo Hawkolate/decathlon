@@ -136,6 +136,14 @@ class Dice:
                 return True
         return False
     
+
+    def check_for_odd_values(self, freezing: list) -> bool:
+        """Check to ensure only even numbers are present."""
+        for value in freezing:
+            if value % 2 != 0:
+                print("Only dice with even values may be frozen.")
+                raise ValueError
+            
     
     def freeze_die_position(self, only_even=False) -> bool:
         """
@@ -165,11 +173,29 @@ class Dice:
             return False
     
 
-    def values_to_indices():
-        pass
+    def values_to_indices(self, freezing):
+        indices = []
+        for to_freeze in freezing:
+            for i, roll in enumerate(self.rolls):
+                # Handling Duplicates by checking known indecies.
+                # And already frozen dice.
+                if (roll == to_freeze) and (i not in indices) and (i not in self.frozen_dice):
+                    indices.append(i)
+                    break
+            else:
+                print(f"Value: {to_freeze} is not in rolls.")
+                raise ValueError
+        return indices
 
-    def freeze_indices():
-        pass
+ 
+
+    def freeze_indices(self, indices):
+        for x in indices:
+            if self.dice[x].frozen == True:
+                print("Refreezing dice is not allowed.")
+                raise ValueError
+            else:
+                self.frozen_index(x, True)
 
 
     def freeze_die_values(self, only_even=False, debug=False) -> bool:
@@ -186,28 +212,9 @@ class Dice:
                 return True
             freezing = list(map(int, freezing)) # Convert to list[int], may raise ValueError.
             if only_even == True:
-                # Check to ensure only even numbers are present.
-                for value in freezing:
-                    if value % 2 != 0:
-                        print("Only dice with even values may be frozen.")
-                        raise ValueError
-            indices = []
-            for to_freeze in freezing:
-                for i, roll in enumerate(self.rolls):
-                    # Handling Duplicates by checking known indecies.
-                    # And already frozen dice.
-                    if (roll == to_freeze) and (i not in indices) and (i not in self.frozen_dice):
-                        indices.append(i)
-                        break
-                else:
-                    print(f"Value: {to_freeze} is not in rolls.")
-                    raise ValueError
-            for x in indices:
-                if self.dice[x].frozen == True:
-                    print("Refreezing dice is not allowed.")
-                    raise ValueError
-                else:
-                    self.frozen_index(x, True)
+                self.check_for_odd_values(freezing)
+            indices = self.values_to_indices(freezing)
+            self.freeze_indices(indices)
             if debug == True:
                 print(freezing)
                 print(indices)

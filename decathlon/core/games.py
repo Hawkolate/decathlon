@@ -105,8 +105,9 @@ class Discus(Game):
         # If all dice are frozen, end the loop.
         while (valid == True) and (stop == False) and (all_frozen == False):
             self.dice.roll()
-            stop = self.dice.freeze_die_position(only_even=True)
-            valid = self.dice.check_for_even()
+            valid = self.dice.check_for_even() # Needs to happen at start to catch changes after rolling.
+            stop = self.dice.freeze_die_values(only_even=True)
+            #valid = self.dice.check_for_even()
             all_frozen = self.dice.all_frozen()
         self.dice.format_dice()
         return self.dice.sum_frozen_dice_values()

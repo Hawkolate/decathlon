@@ -58,7 +58,10 @@ class Game:
 
 class LongJump(Game):
     
-    def __init__(self, name="Long Jump", rounds=3, dice=Dice(5, 6), description="") -> None:
+    def __init__(self, name="Long Jump", 
+        rounds=3, dice=Dice(5, 6), 
+        description="Freeze at least one die per turn, total frozen must be less than 9."
+        ) -> None:
         super().__init__(name, rounds, dice, description)
 
     
@@ -133,7 +136,10 @@ class Discus(Game):
 
 class Hurdles(Game):
 
-    def __init__(self, name="110 Metre Hurdles", rounds=1, dice=Dice(5, 6), description="Don't fall down?") -> None:
+    def __init__(self, name="110 Metre Hurdles", 
+        rounds=1, dice=Dice(5, 6), 
+        description="Roll until you are satisfied with the dice total.\nUp to five rerolls are allowed."
+        ) -> None:
         super().__init__(name, rounds, dice, description)
  
 

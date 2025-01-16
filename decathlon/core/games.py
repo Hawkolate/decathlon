@@ -110,16 +110,18 @@ class Discus(Game):
         # Valid becomes False if there are no even unfrozen values left.
         # The loop stops if the player enters stop.
         # If all dice are frozen, end the loop.
-        while (valid == True) and (stop == False) and (all_frozen == False):
+        while (stop == False) and (all_frozen == False):
             self.dice.roll()
             # Checking at the start makes the game better for the player.
             valid = self.dice.check_for_even() # Needs to happen at start to catch changes after rolling.
+            if valid == False: # Need to prevent stop prompt from executing.
+                break
             stop = self.dice.freeze_die_values(only_even=True)
             all_frozen = self.dice.all_frozen()
-        self.dice.format_dice()
         if valid == False:
             return 0
         else:
+            self.dice.format_dice()
             return self.dice.sum_frozen_dice_values()
 
 

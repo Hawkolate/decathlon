@@ -22,6 +22,5 @@ if __name__ == '__main__':
 
 """Current Issues."""
 # Index select_game() from 1 instead of 0.
-# Work on freeze_die_values()
 # Can't easliy import core package outside for testing.
 # Refactoring of the @play_time decorator.

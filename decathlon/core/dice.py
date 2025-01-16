@@ -134,7 +134,8 @@ class Dice:
             # Find the first even value to 
             if roll % 2 == 0 and self.dice[i].frozen == False:
                 return True
-        return False
+        else:
+            return False
     
 
     def check_for_odd_values(self, freezing: list) -> bool:

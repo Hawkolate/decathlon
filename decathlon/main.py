@@ -19,8 +19,3 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-
-"""Current Issues."""
-# Index select_game() from 1 instead of 0.
-# Can't easliy import core package outside for testing.
-# Refactoring of the @play_time decorator.

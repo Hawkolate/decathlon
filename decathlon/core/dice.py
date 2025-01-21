@@ -174,7 +174,7 @@ class Dice:
             return False
     
 
-    def values_to_indices(self, freezing):
+    def values_to_indices(self, freezing) -> list:
         indices = []
         for to_freeze in freezing:
             for i, roll in enumerate(self.rolls):
